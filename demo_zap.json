@@ -1,0 +1,30 @@
+{
+  "site": [
+    {
+      "@name": "http://127.0.0.1:8000",
+      "alerts": [
+        {
+          "name": "Missing Anti-clickjacking Header",
+          "riskcode": "2",
+          "instances": [
+            {
+              "uri": "/"
+            },
+            {
+              "uri": "/login"
+            }
+          ]
+        },
+        {
+          "name": "SQL Injection - SQLite",
+          "riskcode": "3",
+          "instances": [
+            {
+              "uri": "/api/tickets?id=1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><title>Unified Web Security Triage Report</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 32px; color: #1f2937; }
+  .summary { background: #f3f4f6; padding: 14px; border-radius: 6px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { border: 1px solid #d1d5db; padding: 10px; text-align: left; }
+  th { background: #111827; color: #ffffff; }
+  .sev-critical { color: #991b1b; } .sev-high { color: #dc2626; }
+  .sev-medium { color: #d97706; } .sev-low { color: #2563eb; }
+</style>
+</head>
+<body>
+  <h1>Unified Web Security Triage Report</h1>
+  <div class="summary">
+    <strong>Total Unique Findings:</strong> 5 &nbsp;|&nbsp;
+    <strong>Duplicates Removed:</strong> 0
+  </div>
+  <table>
+    <thead><tr><th>Severity</th><th>Source Tool</th><th>Finding</th><th>Target / IP</th><th>Evidence</th></tr></thead>
+    <tbody><tr><td class='sev-critical'><strong>Critical</strong></td><td>Access Log</td><td>Live SQL Injection</td><td><code>203.0.113.45</code></td><td><code>GET /api/tickets?id=1 UNION SELECT 1,2-- (HTTP 500)</code></td></tr><tr><td class='sev-critical'><strong>Critical</strong></td><td>Access Log</td><td>Live Path Traversal</td><td><code>203.0.113.45</code></td><td><code>GET /download?file=../../etc/passwd (HTTP 403)</code></td></tr><tr><td class='sev-high'><strong>High</strong></td><td>OWASP ZAP</td><td>SQL Injection - SQLite</td><td><code>http://127.0.0.1:8000</code></td><td><code>1 endpoint(s) flagged by scanner</code></td></tr><tr><td class='sev-high'><strong>High</strong></td><td>Access Log</td><td>Live XSS Attempt</td><td><code>198.51.100.77</code></td><td><code>GET /search?q=&lt;script&gt;alert(1)&lt;/script&gt; (HTTP 200)</code></td></tr><tr><td class='sev-medium'><strong>Medium</strong></td><td>OWASP ZAP</td><td>Missing Anti-clickjacking Header</td><td><code>http://127.0.0.1:8000</code></td><td><code>2 endpoint(s) flagged by scanner</code></td></tr></tbody>
+  </table>
+</body>
+</html>
