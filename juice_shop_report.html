@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><title>Unified Web Security Triage Report</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 32px; color: #1f2937; }
+  .summary { background: #f3f4f6; padding: 14px; border-radius: 6px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { border: 1px solid #d1d5db; padding: 10px; text-align: left; }
+  th { background: #111827; color: #ffffff; }
+  .sev-critical { color: #991b1b; } .sev-high { color: #dc2626; }
+  .sev-medium { color: #d97706; } .sev-low { color: #2563eb; }
+</style>
+</head>
+<body>
+  <h1>Unified Web Security Triage Report</h1>
+  <div class="summary">
+    <strong>Total Unique Findings:</strong> 6 &nbsp;|&nbsp;
+    <strong>Duplicates Removed:</strong> 26
+  </div>
+  <table>
+    <thead><tr><th>Severity</th><th>Source Tool</th><th>Finding</th><th>Target / IP</th><th>Evidence</th></tr></thead>
+    <tbody><tr><td class='sev-low'><strong>Low</strong></td><td>Burp Suite Pro</td><td>Unencrypted communications</td><td><code>http://127.0.0.1:3000</code></td><td><code>Endpoint: /</code></td></tr><tr><td class='sev-info'><strong>Info</strong></td><td>Burp Suite Pro</td><td>Cross-origin resource sharing: arbitrary origin trusted</td><td><code>http://127.0.0.1:3000</code></td><td><code>Endpoint: /</code></td></tr><tr><td class='sev-info'><strong>Info</strong></td><td>Burp Suite Pro</td><td>Cross-origin resource sharing</td><td><code>http://127.0.0.1:3000</code></td><td><code>Endpoint: /</code></td></tr><tr><td class='sev-info'><strong>Info</strong></td><td>Burp Suite Pro</td><td>Path-relative style sheet import</td><td><code>http://127.0.0.1:3000</code></td><td><code>Endpoint: /</code></td></tr><tr><td class='sev-info'><strong>Info</strong></td><td>Burp Suite Pro</td><td>OpenAPI definition found (active scan check)</td><td><code>http://127.0.0.1:3000</code></td><td><code>Endpoint: /api-docs/swagger-ui-init.js</code></td></tr><tr><td class='sev-info'><strong>Info</strong></td><td>Burp Suite Pro</td><td>Robots.txt file</td><td><code>http://127.0.0.1:3000</code></td><td><code>Endpoint: /robots.txt</code></td></tr></tbody>
+  </table>
+</body>
+</html>

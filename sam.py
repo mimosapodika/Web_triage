@@ -2,6 +2,7 @@ import argparse
 import html
 import json
 import re
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -16,8 +17,28 @@ ATTACK_RULES = [
 ]
 
 
+def parse_burp_xml(path):
+    """Tool 1: Extracts web vulnerabilities from a Burp Suite Pro XML export."""
+    findings = []
+    root = ET.parse(path).getroot()
+
+    for issue in root.findall("issue"):
+        sev = (issue.findtext("severity") or "Info").strip()
+        if sev.lower() == "information":
+            sev = "Info"
+
+        findings.append({
+            "source": "Burp Suite Pro",
+            "severity": sev,
+            "title": issue.findtext("name") or "Burp Issue",
+            "target": issue.findtext("host") or "Web App",
+            "detail": f"Endpoint: {issue.findtext('path') or '/'}",
+        })
+    return findings
+
+
 def parse_zap_json(path):
-    """Tool 1: Extracts web vulnerabilities from an OWASP ZAP JSON export."""
+    """Tool 2: Extracts web vulnerabilities from an OWASP ZAP JSON export."""
     findings = []
     data = json.loads(Path(path).read_text(encoding="utf-8"))
     sites = data.get("site", [])
@@ -39,7 +60,7 @@ def parse_zap_json(path):
 
 
 def parse_access_log(path):
-    """Tool 2: Detects live web attacks from Nginx/Apache access logs."""
+    """Tool 3: Detects live web attacks from Nginx/Apache access logs."""
     findings = []
     for line in Path(path).read_text(encoding="utf-8", errors="ignore").splitlines():
         match = LOG_REGEX.search(line)
@@ -128,7 +149,8 @@ def create_demo_files():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Multi-Tool Web Security Triage Hub (OWASP ZAP + Access Logs)")
+    parser = argparse.ArgumentParser(description="Multi-Tool Web Security Triage Hub (Burp Pro + OWASP ZAP + Access Logs)")
+    parser.add_argument("--burp", help="Path to Burp Suite Pro XML report")
     parser.add_argument("--zap", help="Path to OWASP ZAP JSON report")
     parser.add_argument("--log", help="Path to Nginx/Apache access.log")
     parser.add_argument("--out", default="web_triage_report.html", help="Output HTML report filename")
@@ -137,10 +159,12 @@ def main():
 
     if args.demo:
         args.zap, args.log = create_demo_files()
-    if not args.zap and not args.log:
-        parser.error("Provide --zap, --log, or --demo.")
+    if not args.burp and not args.zap and not args.log:
+        parser.error("Provide --burp, --zap, --log, or --demo.")
 
     all_findings = []
+    if args.burp:
+        all_findings.extend(parse_burp_xml(args.burp))
     if args.zap:
         all_findings.extend(parse_zap_json(args.zap))
     if args.log:
